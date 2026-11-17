@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 from typing import Any
 
@@ -80,8 +79,7 @@ class GenerationService:
         if not chunks:
             return GeneratedAnswer(
                 answer=(
-                    "I couldn't find enough information in the "
-                    "provided documents to answer that."
+                    "I couldn't find enough information in the provided documents to answer that."
                 ),
                 sources=[],
                 model=self.client.model,

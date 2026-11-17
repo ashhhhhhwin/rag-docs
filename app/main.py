@@ -3,11 +3,14 @@ import uuid
 
 from fastapi import FastAPI, Request
 
+from app.api.routes import router as ask_router
 from app.config import get_settings
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 app = FastAPI(title="Chat With Your Docs")
+
+app.include_router(ask_router)
 
 
 @app.middleware("http")

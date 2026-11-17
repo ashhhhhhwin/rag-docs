@@ -49,7 +49,10 @@ class ChromaStore:
         )
         hits = []
         for id_, doc, meta, dist in zip(
-            res["ids"][0], res["documents"][0], res["metadatas"][0], res["distances"][0],
+            res["ids"][0],
+            res["documents"][0],
+            res["metadatas"][0],
+            res["distances"][0],
             strict=True,
         ):
             sim = 1.0 - dist  # Chroma returns cosine distance

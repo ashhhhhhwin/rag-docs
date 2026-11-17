@@ -1,4 +1,3 @@
-
 import httpx
 import pytest
 
@@ -21,13 +20,7 @@ async def test_openrouter_client_parses_response():
             200,
             json={
                 "model": "test-model",
-                "choices": [
-                    {
-                        "message": {
-                            "content": "The document says this. [C1]"
-                        }
-                    }
-                ],
+                "choices": [{"message": {"content": "The document says this. [C1]"}}],
                 "usage": {
                     "prompt_tokens": 100,
                     "completion_tokens": 20,
@@ -45,10 +38,11 @@ async def test_openrouter_client_parses_response():
     )
 
     result = await client.generate(
-    [
-        {"role": "system", "content": "You are a document assistant."},
-        {"role": "user", "content": "Test question"},
-    ])
+        [
+            {"role": "system", "content": "You are a document assistant."},
+            {"role": "user", "content": "Test question"},
+        ]
+    )
 
     assert result.content == "The document says this. [C1]"
     assert result.model == "test-model"
@@ -62,13 +56,7 @@ async def test_generation_service_returns_citations():
             200,
             json={
                 "model": "test-model",
-                "choices": [
-                    {
-                        "message": {
-                            "content": "The policy allows 20 days. [C1]"
-                        }
-                    }
-                ],
+                "choices": [{"message": {"content": "The policy allows 20 days. [C1]"}}],
                 "usage": {},
             },
         )

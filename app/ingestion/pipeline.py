@@ -6,9 +6,7 @@ from app.retrieval.embeddings import Embedder
 from app.retrieval.store import ChromaStore
 
 
-def ingest_file(
-    path: Path, store: ChromaStore, embedder: Embedder, size: int, overlap: int
-) -> int:
+def ingest_file(path: Path, store: ChromaStore, embedder: Embedder, size: int, overlap: int) -> int:
     """Index one file. Re-ingesting replaces the old chunks so edits leave no stale data."""
     chunks = chunk_pages(load_file(path), size, overlap)
     store.delete_source(path.name)

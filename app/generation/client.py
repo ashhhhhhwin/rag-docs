@@ -1,7 +1,6 @@
-
 from dataclasses import dataclass
 from typing import Any
-from app.config import settings
+
 import httpx
 
 from app.config import settings
@@ -29,10 +28,8 @@ class OpenRouterClient:
     ) -> None:
         self.api_key = api_key or settings.openrouter_api_key
         self.model = model or settings.llm_model
-        self.base_url = (
-            base_url or settings.openrouter_base_url
-        ).rstrip("/")
-        self.timeout_s = timeout_s or settings.llm_timeout_s
+        self.base_url = (base_url or settings.openrouter_base_url).rstrip("/")
+        self.timeout_s = timeout_s if timeout_s is not None else settings.llm_timeout_s
         self.transport = transport
 
         if not self.api_key:
@@ -71,24 +68,22 @@ class OpenRouterClient:
                 response.raise_for_status()
 
         except httpx.HTTPStatusError as exc:
+            error_body = exc.response.text[:500]
             raise LLMProviderError(
-                f"OpenRouter returned HTTP {exc.response.status_code}: "
-                f"{exc.response.text[:500]}"
+                f"OpenRouter returned HTTP {exc.response.status_code}: {error_body}"
             ) from exc
+
         except httpx.RequestError as exc:
-            raise LLMProviderError(
-                f"Could not connect to OpenRouter: {exc}"
-            ) from exc
+            raise LLMProviderError(f"Could not connect to OpenRouter: {exc}") from exc
 
         try:
             data = response.json()
             content = data["choices"][0]["message"]["content"]
             model = data.get("model", self.model)
             usage = data.get("usage") or {}
+
         except (KeyError, IndexError, TypeError, ValueError) as exc:
-            raise LLMProviderError(
-                "OpenRouter returned an unexpected response format"
-            ) from exc
+            raise LLMProviderError("OpenRouter returned an unexpected response format") from exc
 
         if not isinstance(content, str) or not content.strip():
             raise LLMProviderError("OpenRouter returned an empty answer")

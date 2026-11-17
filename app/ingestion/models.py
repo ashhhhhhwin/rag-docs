@@ -3,8 +3,8 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Page:
-    source: str          # file name
-    page: int | None     # 1-based for PDFs, None for plain text
+    source: str  # file name
+    page: int | None  # 1-based for PDFs, None for plain text
     text: str
 
 
@@ -13,5 +13,5 @@ class Chunk:
     id: str
     source: str
     page: int | None
-    index: int           # position within the page
+    index: int  # position within the page
     text: str
