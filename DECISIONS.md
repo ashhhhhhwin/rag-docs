@@ -6,4 +6,4 @@ Just wanted to log how I took decisions based on the project requirements
 2. Used claude to plan and execute architecture and scaffold.
 3. Chunking strategy I was going to use completely LLM based, but it seems openrouter has strict rate limits so as claude advisory, i will be going with hybrid strategy.
 4. One important deecision that was made in the chunking strategy is overlap decision is taken after splitting the texts so that overlap would be smaller than the chunk itself
-5. 
+5. Planning to keep intial chunk size as 800 and overlap of 120. Maybe after the chunks are made evals can give a better number.

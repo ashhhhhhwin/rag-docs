@@ -32,6 +32,8 @@ class Settings(BaseSettings):
 
     # Guardrails
     max_question_chars: int = 1000
+    collection_name: str = "docs"
+    rrf_k: int = 60
 
 
 @lru_cache
